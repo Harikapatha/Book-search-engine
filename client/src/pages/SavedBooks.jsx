@@ -12,11 +12,13 @@ import {
 import { QUERY_USER } from "../utils/queries";
 import { DELETE_BOOK } from "../utils/mutations";
 import Auth from '../utils/auth';
-import { removeBookId } from '../utils/localStorage';
 
 const SavedBooks = () => {
-  const { loading, data, error: quErr } = useQuery(QUERY_USER);
-  const [deleteBook, { error: muErr }] = useMutation(DELETE_BOOK, {
+  const { loading, data } = useQuery(QUERY_USER,{fetchPolicy:'cache-and-network'});
+  const userData = data?.user||{};
+
+
+  const [deleteBook, { error }] = useMutation(DELETE_BOOK, {
     refetchQueries: [QUERY_USER],
   });
 
@@ -32,8 +34,6 @@ const SavedBooks = () => {
         variables: {bookId}
       })
 
-      // upon success, remove book's id from localStorage
-      removeBookId(bookId, data.deleteBook._id);
     } catch (err) {
       console.error(err);
     }
@@ -43,7 +43,6 @@ const SavedBooks = () => {
   if (loading) {
     return <h2>LOADING...</h2>;
   }
-  const userData = data.user;
 
   return (
     <>

@@ -13,7 +13,6 @@ async function startApolloServer() {
   const { authMiddleware } = require('./utils/auth');
   const path = require('path');
   const db = require('./config/connection');
-  const routes = require('./routes');
 
   const app = express();
   const PORT = process.env.PORT || 3001;
@@ -27,8 +26,6 @@ async function startApolloServer() {
   if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, '../client/build')));
   }
-
-  app.use(routes);
 
   db.once('open', () => {
     app.listen(PORT, () => {

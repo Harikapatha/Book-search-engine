@@ -10,8 +10,8 @@ import {
 } from 'react-bootstrap';
 
 import Auth from '../utils/auth';
-import { saveBook, searchGoogleBooks } from '../utils/API';
-import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
+import {  searchGoogleBooks } from '../utils/API';
+// import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
 
 import { ADD_BOOK } from "../utils/mutations";
 
@@ -30,12 +30,11 @@ const SearchBooks = () => {
     if (Auth.loggedIn()) {
       const {data: {_id}} = Auth.getProfile();
       setUserId(_id);
-      setSavedBookIds(getSavedBookIds(_id));
     }
   }, []);
 
   useEffect(() => {
-    saveBookIds(savedBookIds, userId);
+    setSavedBookIds(savedBookIds, userId);
   }, [savedBookIds]);
 
 
